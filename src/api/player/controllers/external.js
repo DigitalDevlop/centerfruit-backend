@@ -11,6 +11,8 @@ const axios = require('axios');
 module.exports = createCoreController('api::player.player', () => ({
     async external(ctx, next) {
    console.log("External Api Called")
+   
+   // @ts-ignore
    console.log("External Ctx :-",ctx.request.body)
 
 
