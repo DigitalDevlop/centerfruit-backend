@@ -11,9 +11,12 @@ const axios = require('axios');
 module.exports = createCoreController('api::player.player', () => ({
     async external(ctx, next) {
    console.log("External Api Called")
-   console.log("External Ctx :-",ctx.body)
+   console.log("External Ctx :-",ctx.request.body)
 
 
+
+
+   
 //    const sendMessage = async () => {
 //     const url = 'http://ip-address:port/sendsms';
 //     const params = {
