@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "prize_systems",
+  "info": {
+    "singularName": "prize-system",
+    "pluralName": "prize-systems",
+    "displayName": "Prize_system"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "reloadAmount": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sms_logs",
+  "info": {
+    "singularName": "sms-log",
+    "pluralName": "sms-logs",
+    "displayName": "Sms_log",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "mobile": {
+      "type": "string"
+    },
+    "serviceProvider": {
+      "type": "string"
+    },
+    "msgState": {
+      "type": "enumeration",
+      "enum": [
+        "Delivered",
+        "Sent "
+      ]
+    },
+    "message": {
+      "type": "string"
+    }
+  }
+}

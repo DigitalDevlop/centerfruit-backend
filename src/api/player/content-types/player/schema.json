@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "players",
+  "info": {
+    "singularName": "player",
+    "pluralName": "players",
+    "displayName": "Player",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "mobile": {
+      "type": "string"
+    },
+    "otp": {
+      "type": "integer"
+    },
+    "user_prize": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::user-prize.user-prize",
+      "inversedBy": "players"
+    }
+  }
+}
