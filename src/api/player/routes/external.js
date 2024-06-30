@@ -2,7 +2,7 @@ module.exports = {
     routes: [
       {
         method: 'POST',
-        path: '/external',
+         path: '/external/:mobilenumber/:message',
         handler: 'external.external',
       }
     ]

@@ -10,10 +10,14 @@ const axios = require('axios');
 
 module.exports = createCoreController('api::player.player', () => ({
     async external(ctx, next) {
-   console.log("External Api Called")
-   
-   // @ts-ignore
-   console.log("External Ctx :-",ctx.request.body)
+        console.log("External Api Called");
+
+        // Extract parameters from the request path
+        const { mobilenumber, message } = ctx.params;
+    
+        // Log the extracted parameters for debugging
+        console.log(`Mobilenumber: ${mobilenumber}, Message: ${message}`);
+    
 
 
 
