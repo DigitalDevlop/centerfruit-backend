@@ -12,8 +12,9 @@ module.exports = createCoreController('api::player.player', () => ({
     async external(ctx, next) {
         console.log("External Api Called");
 
-        // Extract parameters from the request path
-        const { mobilenumber, message } = ctx.params;
+        // Extract parameters from the query string
+        const { mobilenumber, message } = ctx.query;
+    
     
         // Log the extracted parameters for debugging
         console.log(`Mobilenumber: ${mobilenumber}, Message: ${message}`);
