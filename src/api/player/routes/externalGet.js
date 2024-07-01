@@ -3,7 +3,7 @@ module.exports = {
       {
         method: 'GET',
          path: '/external',
-        handler: 'externalGet.externalGet',
+        handler: 'externalget.externalget',
       }
     ]
   }
