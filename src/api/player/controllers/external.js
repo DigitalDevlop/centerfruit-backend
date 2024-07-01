@@ -14,7 +14,7 @@ module.exports = createCoreController('api::player.player', ({ strapi }) => ({
 
             // Extract parameters from the query string or request body
             // @ts-ignore
-            const { mobilenumber, message } = ctx.method === 'POST' ? ctx.request.body : ctx.query;
+            const { mobilenumber, message } = ctx.query;
         
             // Log the extracted parameters for debugging
             console.log(`Mobilenumber: ${mobilenumber}, Message: ${message}`);
