@@ -16,18 +16,40 @@ module.exports = createCoreController('api::player.player', ({ strapi }) => ({
             console.log("BODY",ctx.request.body)
             
             // @ts-ignore
-            const { mobilenumber, message } = ctx.body;
+            const { mobilenumber, message } = ctx.request.body;
         
+
             // Log the extracted parameters for debugging
             console.log(`Mobilenumber: ${mobilenumber}, Message: ${message}`);
             
             // Example of making an API call using axios
             // const response = await axios.post('https://example.com/api', { mobilenumber, message });
 
-            // Return a 200 status with a message
-            ctx.send({ message: 'API called' }, 200);
 
-              
+              const existingPlayer = await strapi.entityService.findMany('api::player.player',{
+                filters: { mobile: mobilenumber },
+            });
+
+            if (existingPlayer) {
+                // Mobile number already exists
+                ctx.send({ message: 'Mobile number already exists' }, 409); // 409 Conflict
+            } else {
+                // Mobile number does not exist, add new entry
+                const newPlayer = await strapi.entityService.create('api::player.player',{
+                    data: {
+                        mobile: mobilenumber,
+                        otp:1234,
+                      },
+                });
+                  
+
+                // Example of making an API call using axios
+                // const response = await axios.post('https://example.com/api', { mobilenumber, message });
+
+                // Return a 201 status with a message
+                ctx.send({ message: 'New player added', player: newPlayer }, 201);
+            }
+
 //    const sendMessage = async () => {
 //     const url = 'http://ip-address:port/sendsms';
 //     const params = {
