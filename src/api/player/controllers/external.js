@@ -12,8 +12,8 @@ module.exports = createCoreController('api::player.player', ({ strapi }) => ({
         try {
             console.log("External Api Called");
 
-            // Extract parameters from the query string or request body
-            console.log("BODY",ctx.body)
+              // @ts-ignore
+            console.log("BODY",ctx.request.body)
             
             // @ts-ignore
             const { mobilenumber, message } = ctx.body;
