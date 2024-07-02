@@ -13,8 +13,10 @@ module.exports = createCoreController('api::player.player', ({ strapi }) => ({
             console.log("External Api Called");
 
             // Extract parameters from the query string or request body
+            console.log("BODY",ctx.body)
+            
             // @ts-ignore
-            const { mobilenumber, message } = ctx.query;
+            const { mobilenumber, message } = ctx.body;
         
             // Log the extracted parameters for debugging
             console.log(`Mobilenumber: ${mobilenumber}, Message: ${message}`);
