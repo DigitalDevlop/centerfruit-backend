@@ -828,19 +828,14 @@ export interface ApiPlayerPlayer extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     mobile: Attribute.String;
     otp: Attribute.Integer;
-    user_prize: Attribute.Relation<
-      'api::player.player',
-      'manyToOne',
-      'api::user-prize.user-prize'
-    >;
+    activeOTP: Attribute.Boolean;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::player.player',
       'oneToOne',
@@ -895,16 +890,15 @@ export interface ApiSmsLogSmsLog extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     mobile: Attribute.String;
-    serviceProvider: Attribute.String;
-    msgState: Attribute.Enumeration<['Delivered', 'Sent ']>;
+    msgState: Attribute.Enumeration<['Delivered', 'Failed']>;
     message: Attribute.String;
+    msgCategory: Attribute.Enumeration<['otp', 'winning ']>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::sms-log.sms-log',
       'oneToOne',
@@ -913,40 +907,6 @@ export interface ApiSmsLogSmsLog extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::sms-log.sms-log',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiUserPrizeUserPrize extends Schema.CollectionType {
-  collectionName: 'user_prizes';
-  info: {
-    singularName: 'user-prize';
-    pluralName: 'user-prizes';
-    displayName: 'User_prize';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    players: Attribute.Relation<
-      'api::user-prize.user-prize',
-      'oneToMany',
-      'api::player.player'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::user-prize.user-prize',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::user-prize.user-prize',
       'oneToOne',
       'admin::user'
     > &
@@ -976,7 +936,6 @@ declare module '@strapi/types' {
       'api::player.player': ApiPlayerPlayer;
       'api::prize-system.prize-system': ApiPrizeSystemPrizeSystem;
       'api::sms-log.sms-log': ApiSmsLogSmsLog;
-      'api::user-prize.user-prize': ApiUserPrizeUserPrize;
     }
   }
 }

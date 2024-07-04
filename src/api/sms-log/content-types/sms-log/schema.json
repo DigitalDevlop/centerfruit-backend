@@ -8,25 +8,29 @@
     "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
     "mobile": {
       "type": "string"
     },
-    "serviceProvider": {
-      "type": "string"
-    },
     "msgState": {
       "type": "enumeration",
       "enum": [
         "Delivered",
-        "Sent "
+        "Failed"
       ]
     },
     "message": {
       "type": "string"
+    },
+    "msgCategory": {
+      "type": "enumeration",
+      "enum": [
+        "otp",
+        "winning "
+      ]
     }
   }
 }

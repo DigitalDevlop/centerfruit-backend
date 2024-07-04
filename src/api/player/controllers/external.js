@@ -1,82 +1,43 @@
 'use strict';
 
-/**
- * player controller
- */
-
 const { createCoreController } = require('@strapi/strapi').factories;
-const axios = require('axios');
+const { sendMessage } = require('../../../smsService/smsService');
+const { findPlayerByMobile, updatePlayerOTP, createNewPlayer } = require('../../../dbService/playerDbService');
+const messageTemplates = require('../../../config/template');
+const { msgCategory } = require('../../../config/enum');
 
 module.exports = createCoreController('api::player.player', ({ strapi }) => ({
     async external(ctx) {
+        const generateOTP = () => Math.floor(1000 + Math.random() * 9000);
+
         try {
-            console.log("External Api Called");
 
-              // @ts-ignore
-            console.log("BODY",ctx.request.body)
-            
             // @ts-ignore
-            const { mobilenumber, message } = ctx.request.body;
-        
+            const { mobilenumber } = ctx.request.body;
+            console.log(`Mobilenumber: ${mobilenumber}`);
 
-            // Log the extracted parameters for debugging
-            console.log(`Mobilenumber: ${mobilenumber}, Message: ${message}`);
-            
-            // Example of making an API call using axios
-            // const response = await axios.post('https://example.com/api', { mobilenumber, message });
+            const existingPlayer = await findPlayerByMobile(mobilenumber);
 
+            if (existingPlayer.length > 0) {
+                const player = existingPlayer[0].id;
+                const mobile = parseInt(existingPlayer[0].mobile, 10);
+                const otp = generateOTP();
 
-              const existingPlayer = await strapi.entityService.findMany('api::player.player',{
-                filters: { mobile: mobilenumber },
-            });
+                const updatedPlayer = await updatePlayerOTP(player, otp);
+                await sendMessage(mobile, otp, messageTemplates.existingPlayer,msgCategory.OTP);
 
-            if (existingPlayer) {
-                // Mobile number already exists
-                ctx.send({ message: 'Mobile number already exists' }, 409); // 409 Conflict
+                ctx.send({ message: 'Updated player', player: updatedPlayer }, 200);
             } else {
-                // Mobile number does not exist, add new entry
-                const newPlayer = await strapi.entityService.create('api::player.player',{
-                    data: {
-                        mobile: mobilenumber,
-                        otp:1234,
-                      },
-                });
-                  
+                const mobile = mobilenumber;
+                const otp = generateOTP();
 
-                // Example of making an API call using axios
-                // const response = await axios.post('https://example.com/api', { mobilenumber, message });
+                const newPlayer = await createNewPlayer(mobile, otp);
+                await sendMessage(mobile, otp, messageTemplates.newPlayer,msgCategory.OTP);
 
-                // Return a 201 status with a message
                 ctx.send({ message: 'New player added', player: newPlayer }, 201);
             }
-
-//    const sendMessage = async () => {
-//     const url = 'http://ip-address:port/sendsms';
-//     const params = {
-//       username: 'your_username',
-//       password: 'your_password',
-//       from: 'ZMSG',
-//       to: '94791234567',
-//       msg: 'TestMessage',
-//       msg_ref_num: 'A001',
-//     };
-  
-//     try {
-//       const response = await axios.get(url, { params });
-//       console.log('Message sent successfully:', response.data);
-//     } catch (error) {
-//       console.error('Error sending message:', error);
-//     }
-//   };
-  
-//   sendMessage();
-
-
         } catch (error) {
-            // Log the error for debugging purposes
             console.error('Error occurred:', error);
-
-            // Return a 500 status with an error message
             ctx.send({ message: 'Internal server error', error: error.message }, 500);
         }
     }

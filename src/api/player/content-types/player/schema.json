@@ -8,7 +8,7 @@
     "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -18,11 +18,8 @@
     "otp": {
       "type": "integer"
     },
-    "user_prize": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::user-prize.user-prize",
-      "inversedBy": "players"
+    "activeOTP": {
+      "type": "boolean"
     }
   }
 }
