@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "winners",
+  "info": {
+    "singularName": "winner",
+    "pluralName": "winners",
+    "displayName": "Winner",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "reload",
+        "daraz"
+      ]
+    },
+    "player": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::player.player",
+      "inversedBy": "winners"
+    }
+  }
+}

@@ -834,6 +834,14 @@ export interface ApiPlayerPlayer extends Schema.CollectionType {
     mobile: Attribute.String;
     otp: Attribute.Integer;
     activeOTP: Attribute.Boolean;
+    winners: Attribute.Relation<
+      'api::player.player',
+      'oneToMany',
+      'api::winner.winner'
+    >;
+    weeklyWin: Attribute.Integer;
+    darazWin: Attribute.Integer;
+    reloadWin: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -851,29 +859,31 @@ export interface ApiPlayerPlayer extends Schema.CollectionType {
   };
 }
 
-export interface ApiPrizeSystemPrizeSystem extends Schema.CollectionType {
-  collectionName: 'prize_systems';
+export interface ApiPrizeConfigurationPrizeConfiguration
+  extends Schema.CollectionType {
+  collectionName: 'prize_configurations';
   info: {
-    singularName: 'prize-system';
-    pluralName: 'prize-systems';
-    displayName: 'Prize_system';
+    singularName: 'prize-configuration';
+    pluralName: 'prize-configurations';
+    displayName: 'Prize_configuration';
+    description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
-    reloadAmount: Attribute.String;
+    reloadAmount: Attribute.Integer;
+    darazVoucher: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::prize-system.prize-system',
+      'api::prize-configuration.prize-configuration',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::prize-system.prize-system',
+      'api::prize-configuration.prize-configuration',
       'oneToOne',
       'admin::user'
     > &
@@ -914,6 +924,41 @@ export interface ApiSmsLogSmsLog extends Schema.CollectionType {
   };
 }
 
+export interface ApiWinnerWinner extends Schema.CollectionType {
+  collectionName: 'winners';
+  info: {
+    singularName: 'winner';
+    pluralName: 'winners';
+    displayName: 'Winner';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    category: Attribute.Enumeration<['reload', 'daraz']>;
+    player: Attribute.Relation<
+      'api::winner.winner',
+      'manyToOne',
+      'api::player.player'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::winner.winner',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::winner.winner',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -934,8 +979,9 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::game-session.game-session': ApiGameSessionGameSession;
       'api::player.player': ApiPlayerPlayer;
-      'api::prize-system.prize-system': ApiPrizeSystemPrizeSystem;
+      'api::prize-configuration.prize-configuration': ApiPrizeConfigurationPrizeConfiguration;
       'api::sms-log.sms-log': ApiSmsLogSmsLog;
+      'api::winner.winner': ApiWinnerWinner;
     }
   }
 }

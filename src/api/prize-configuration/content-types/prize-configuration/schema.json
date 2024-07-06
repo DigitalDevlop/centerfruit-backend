@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "prize_configurations",
+  "info": {
+    "singularName": "prize-configuration",
+    "pluralName": "prize-configurations",
+    "displayName": "Prize_configuration",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "reloadAmount": {
+      "type": "integer"
+    },
+    "darazVoucher": {
+      "type": "integer"
+    }
+  }
+}
