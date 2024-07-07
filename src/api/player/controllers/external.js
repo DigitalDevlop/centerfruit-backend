@@ -13,13 +13,13 @@ module.exports = createCoreController('api::player.player', ({ strapi }) => ({
         try {
 
             // @ts-ignore
-            const { mobilenumber } = ctx.request.body;
-            console.log(`Mobilenumber: ${mobilenumber}`);
+            const { mobile } = ctx.request.body;
+            console.log(`Mobilenumber: ${mobile}`);
 
             // @ts-ignore
             console.log("Testing",ctx.request.body)
 
-            const existingPlayer = await findPlayerByMobile(mobilenumber);
+            const existingPlayer = await findPlayerByMobile(mobile);
 
             if (existingPlayer.length > 0) {
                 const player = existingPlayer[0].id;
@@ -31,7 +31,8 @@ module.exports = createCoreController('api::player.player', ({ strapi }) => ({
 
                 ctx.send({ message: 'Updated player', player: updatedPlayer }, 200);
             } else {
-                const mobile = mobilenumber;
+                // @ts-ignore
+                const mobile = mobile;
                 const otp = generateOTP();
 
                 const newPlayer = await createNewPlayer(mobile, otp);
