@@ -936,7 +936,7 @@ export interface ApiWinnerWinner extends Schema.CollectionType {
     draftAndPublish: false;
   };
   attributes: {
-    category: Attribute.Enumeration<['reload', 'daraz']>;
+    category: Attribute.Enumeration<['reload-100', 'daraz', 'reload-50']>;
     player: Attribute.Relation<
       'api::winner.winner',
       'manyToOne',

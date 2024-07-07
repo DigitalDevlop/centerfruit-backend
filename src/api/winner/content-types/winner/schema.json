@@ -15,8 +15,9 @@
     "category": {
       "type": "enumeration",
       "enum": [
-        "reload",
-        "daraz"
+        "reload-100",
+        "daraz",
+        "reload-50"
       ]
     },
     "player": {

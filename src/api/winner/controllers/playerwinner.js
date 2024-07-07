@@ -19,19 +19,19 @@ module.exports = createCoreController('api::winner.winner', ({ strapi }) => ({
             return bytes.toString(CryptoJS.enc.Utf8);
         };
 
-        const handleReloadAmountUpdate = async () => {
+        const handleReloadAmountUpdate = async (winningPrize) => {
             try {
                 const reloadAmount = await getReloadAmount();
-                return await updateRelodAmount(reloadAmount.reloadAmount);
+                return await updateRelodAmount(reloadAmount.reloadAmount,winningPrize);
             } catch (error) {
                 console.error('Error updating reload amount:', error);
                 throw error;
             }
         };
 
-        const handleReloadUserProfileUpdate = async (id, weeklyWin, reloadWin) => {
+        const handleReloadUserProfileUpdate = async (id, weeklyWin, reloadWin,winningPrize) => {
             try {
-                const category = 'reload';
+                const category = `reload-${winningPrize}`;
                 await updateReloadUserProfile(id, weeklyWin, reloadWin);
                 await updateWinnerTable(id, category);
             } catch (error) {
@@ -42,42 +42,109 @@ module.exports = createCoreController('api::winner.winner', ({ strapi }) => ({
 
         try {
             const userId = parseInt(ctx.params.id);
-            const convertedOtp = ctx.params.otp;
+            // @ts-ignore
+            const convertedOtp = ctx.request.body.otp;
             const decryptedOTP = parseInt(decryptOTP(convertedOtp, secretKey), 10);
             const winningCategory = ctx.params.category;
+            
 
             console.log('User ID:', userId);
 
-            if (winningCategory === "RELOAD") {
-                // First, check if the user can win the prize
-                const player = await userAcceptble(userId);
+            if (winningCategory === "RELOAD-50") {
+                const winningPrize = 50; 
+                 // First, check if the user can win the prize
+                 const player = await userAcceptble(userId);
+ 
+                 let canWin = false;
+                 if (player.otp === decryptedOTP) {
+                     if (player.reloadWin < 5 && player.weeklyWin < 2) {
+                         canWin = true;
+                     } else {
+                         console.log('User has reached the win limit.');
+                         ctx.send({ message: 'User has reached the win limit.' }, 400);
+                     }
+                 } else {
+                     console.log('OTP does not match.');
+                     ctx.send({ message: 'OTP does not match.' }, 400);
+                 }
+ 
+                 // Second, give 50 rupees to the user and send a message
+                 if (canWin) {
+                     //Send Reload & SMS
+ 
+ 
+                     // Update winning configuration
+                     await handleReloadAmountUpdate(winningPrize);
+                     await handleReloadUserProfileUpdate(userId, player.weeklyWin, player.reloadWin,winningPrize);
+                     console.log('Prize awarded and user profile updated.');
+                     ctx.send({ message: 'Prize awarded and user profile updated.' }, 200);
+                 }
+            } else if(winningCategory === "RELOAD-100") {
 
-                console.log('Player:', player);
+                 // First, check if the user can win the prize
+                 const player = await userAcceptble(userId);
 
-                let canWin = false;
-                if (player.otp === decryptedOTP) {
-                    if (player.reloadWin < 5 && player.weeklyWin < 2) {
-                        canWin = true;
-                    } else {
-                        console.log('User has reached the win limit.');
-                        ctx.send({ message: 'User has reached the win limit.' }, 400);
-                    }
-                } else {
-                    console.log('OTP does not match.');
-                    ctx.send({ message: 'OTP does not match.' }, 400);
-                }
+                 const winningPrize = 100; 
 
-                // Second, give 50 rupees to the user and send a message
-                if (canWin) {
-                    //Send Reload & SMS
+                 console.log('Player:', player);
+ 
+                 let canWin = false;
+                 if (player.otp === decryptedOTP) {
+                     if (player.reloadWin < 5 && player.weeklyWin < 2) {
+                         canWin = true;
+                     } else {
+                         console.log('User has reached the win limit.');
+                         ctx.send({ message: 'User has reached the win limit.' }, 400);
+                     }
+                 } else {
+                     console.log('OTP does not match.');
+                     ctx.send({ message: 'OTP does not match.' }, 400);
+                 }
+ 
+                 // Second, give 50 rupees to the user and send a message
+                 if (canWin) {
+                     //Send Reload & SMS
+ 
+ 
+                     // Update winning configuration
+                     await handleReloadAmountUpdate(winningPrize);
+                     await handleReloadUserProfileUpdate(userId, player.weeklyWin, player.reloadWin,winningPrize);
+                     console.log('Prize awarded and user profile updated.');
+                     ctx.send({ message: 'Prize awarded and user profile updated.' }, 200);
+                 }
+
+            }else if(winningCategory === "daraz"){
+
+                 // First, check if the user can win the prize
+                 const player = await userAcceptble(userId);
 
 
-                    // Update winning configuration
-                    await handleReloadAmountUpdate();
-                    await handleReloadUserProfileUpdate(userId, player.weeklyWin, player.reloadWin);
-                    console.log('Prize awarded and user profile updated.');
-                    ctx.send({ message: 'Prize awarded and user profile updated.' }, 200);
-                }
+                 console.log('Player:', player);
+ 
+                 let canWin = false;
+                 if (player.otp === decryptedOTP) {
+                     if (player.reloadWin < 5 && player.weeklyWin < 2) {
+                         canWin = true;
+                     } else {
+                         console.log('User has reached the win limit.');
+                         ctx.send({ message: 'User has reached the win limit.' }, 400);
+                     }
+                 } else {
+                     console.log('OTP does not match.');
+                     ctx.send({ message: 'OTP does not match.' }, 400);
+                 }
+ 
+                 // Second, give 50 rupees to the user and send a message
+                 if (canWin) {
+                     //Send Reload & SMS
+ 
+ 
+                     // Update winning configuration
+                  
+                     console.log('Prize awarded and user profile updated.');
+                     ctx.send({ message: 'Prize awarded and user profile updated.' }, 200);
+                 }
+
             }
         } catch (error) {
             console.error('Error occurred:', error);

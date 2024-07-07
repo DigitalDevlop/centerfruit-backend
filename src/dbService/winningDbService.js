@@ -14,10 +14,10 @@ const getReloadAmount = async () => {
     });
 };
 
-const updateRelodAmount = async (reloadAmount) => {
+const updateRelodAmount = async (reloadAmount,winningPrize) => {
     return await strapi.entityService.update('api::prize-configuration.prize-configuration', 1, {
         data: {
-            reloadAmount: reloadAmount-50,
+            reloadAmount: reloadAmount-winningPrize,
           },
     });
 };
