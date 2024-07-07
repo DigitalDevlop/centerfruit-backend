@@ -16,6 +16,9 @@ module.exports = createCoreController('api::player.player', ({ strapi }) => ({
             const { mobilenumber } = ctx.request.body;
             console.log(`Mobilenumber: ${mobilenumber}`);
 
+            // @ts-ignore
+            console.log("Testing",ctx.request.body)
+
             const existingPlayer = await findPlayerByMobile(mobilenumber);
 
             if (existingPlayer.length > 0) {
