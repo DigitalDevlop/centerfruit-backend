@@ -32,7 +32,6 @@ module.exports = createCoreController('api::player.player', ({ strapi }) => ({
                 ctx.send({ message: 'Updated player', player: updatedPlayer }, 200);
             } else {
                 // @ts-ignore
-                const mobile = mobile;
                 const otp = generateOTP();
 
                 const newPlayer = await createNewPlayer(mobile, otp);
