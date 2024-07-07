@@ -33,6 +33,12 @@ const findPlayerByMobileandOtp = async (mobile,otp) => {
     });
 };
 
+const checkPlayerOtp = async (mobile) => {
+    return await strapi.entityService.findMany('api::player.player', {
+        filters: { mobile: mobile },
+    });
+};
+
 const changeActiveOtpStatus = async (playerId) => {
     return await strapi.entityService.update('api::player.player', playerId, {
         data: {
@@ -46,5 +52,6 @@ module.exports = {
     updatePlayerOTP,
     createNewPlayer,
     findPlayerByMobileandOtp,
-    changeActiveOtpStatus
+    changeActiveOtpStatus,
+    checkPlayerOtp
 };
