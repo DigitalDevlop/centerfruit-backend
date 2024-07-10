@@ -4,7 +4,7 @@
 
 const userAcceptble = async (playerId) => {
     return await strapi.entityService.findOne('api::player.player', playerId, {
-        fields: ['otp', 'weeklyWin','reloadWin'],
+        fields: ['mobile','otp', 'weeklyWin','reloadWin'],
     });
 };
 
@@ -31,11 +31,12 @@ const updateReloadUserProfile = async (playerId,weeklyWin,reloadWin) => {
     });
 };
 
-const updateWinnerTable = async (playerId,category) => {
+const updateWinnerTable = async (playerId,category,mobile) => {
     return await strapi.entityService.create('api::winner.winner', {
         data: {
             category: category,
-            player: playerId
+            player: playerId,
+            mobile:mobile,
           },
     });
 };

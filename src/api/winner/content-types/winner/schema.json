@@ -25,6 +25,9 @@
       "relation": "manyToOne",
       "target": "api::player.player",
       "inversedBy": "winners"
+    },
+    "mobile": {
+      "type": "string"
     }
   }
 }

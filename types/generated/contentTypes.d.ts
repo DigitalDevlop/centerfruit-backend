@@ -942,6 +942,7 @@ export interface ApiWinnerWinner extends Schema.CollectionType {
       'manyToOne',
       'api::player.player'
     >;
+    mobile: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

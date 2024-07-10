@@ -29,11 +29,11 @@ module.exports = createCoreController('api::winner.winner', ({ strapi }) => ({
             }
         };
 
-        const handleReloadUserProfileUpdate = async (id, weeklyWin, reloadWin,winningPrize) => {
+        const handleReloadUserProfileUpdate = async (id,mobile, weeklyWin, reloadWin,winningPrize) => {
             try {
                 const category = `reload-${winningPrize}`;
                 await updateReloadUserProfile(id, weeklyWin, reloadWin);
-                await updateWinnerTable(id, category);
+                await updateWinnerTable(id, category,mobile);
             } catch (error) {
                 console.error('Error updating reload user profile:', error);
                 throw error;
@@ -75,7 +75,7 @@ module.exports = createCoreController('api::winner.winner', ({ strapi }) => ({
  
                      // Update winning configuration
                      await handleReloadAmountUpdate(winningPrize);
-                     await handleReloadUserProfileUpdate(userId, player.weeklyWin, player.reloadWin,winningPrize);
+                     await handleReloadUserProfileUpdate(userId,player.mobile, player.weeklyWin, player.reloadWin,winningPrize);
                      console.log('Prize awarded and user profile updated.');
                      ctx.send({ message: 'Prize awarded and user profile updated.' }, 200);
                  }
@@ -108,7 +108,7 @@ module.exports = createCoreController('api::winner.winner', ({ strapi }) => ({
  
                      // Update winning configuration
                      await handleReloadAmountUpdate(winningPrize);
-                     await handleReloadUserProfileUpdate(userId, player.weeklyWin, player.reloadWin,winningPrize);
+                     await handleReloadUserProfileUpdate(userId,player.mobile, player.weeklyWin, player.reloadWin,winningPrize);
                      console.log('Prize awarded and user profile updated.');
                      ctx.send({ message: 'Prize awarded and user profile updated.' }, 200);
                  }
