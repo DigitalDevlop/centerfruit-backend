@@ -1,6 +1,6 @@
 'use strict';
 const axios = require('axios');
-const loggerReload = require('../../../logger/logger'); 
+const {loggerReload} = require('../../../logger/logger'); 
 
 const {
     getReloadAmount,
