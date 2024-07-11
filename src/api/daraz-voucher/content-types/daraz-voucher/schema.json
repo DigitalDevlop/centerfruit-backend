@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "daraz_vouchers",
+  "info": {
+    "singularName": "daraz-voucher",
+    "pluralName": "daraz-vouchers",
+    "displayName": "darazVoucher",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "voucherNumber": {
+      "type": "string"
+    },
+    "status": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

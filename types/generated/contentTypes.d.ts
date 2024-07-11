@@ -788,6 +788,37 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiDarazVoucherDarazVoucher extends Schema.CollectionType {
+  collectionName: 'daraz_vouchers';
+  info: {
+    singularName: 'daraz-voucher';
+    pluralName: 'daraz-vouchers';
+    displayName: 'darazVoucher';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    voucherNumber: Attribute.String;
+    status: Attribute.Boolean & Attribute.DefaultTo<true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::daraz-voucher.daraz-voucher',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::daraz-voucher.daraz-voucher',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiGameSessionGameSession extends Schema.CollectionType {
   collectionName: 'game_sessions';
   info: {
@@ -906,7 +937,7 @@ export interface ApiSmsLogSmsLog extends Schema.CollectionType {
     mobile: Attribute.String;
     msgState: Attribute.Enumeration<['Delivered', 'Failed']>;
     message: Attribute.String;
-    msgCategory: Attribute.Enumeration<['otp', 'winning ']>;
+    msgCategory: Attribute.Enumeration<['otp', 'daraz-winning']>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -978,6 +1009,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::daraz-voucher.daraz-voucher': ApiDarazVoucherDarazVoucher;
       'api::game-session.game-session': ApiGameSessionGameSession;
       'api::player.player': ApiPlayerPlayer;
       'api::prize-configuration.prize-configuration': ApiPrizeConfigurationPrizeConfiguration;

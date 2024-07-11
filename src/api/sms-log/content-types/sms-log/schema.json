@@ -29,7 +29,7 @@
       "type": "enumeration",
       "enum": [
         "otp",
-        "winning "
+        "daraz-winning"
       ]
     }
   }

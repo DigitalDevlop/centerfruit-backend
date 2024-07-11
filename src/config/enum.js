@@ -10,7 +10,7 @@ const messageResponse = Object.freeze({
 
 const msgCategory = Object.freeze({
     OTP:'otp',
-    WINNING:'winning'
+    DARAZWINNING:'daraz-winning'
 });
 
 module.exports = {
