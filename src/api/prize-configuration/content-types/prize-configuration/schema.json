@@ -13,7 +13,10 @@
   "pluginOptions": {},
   "attributes": {
     "reloadAmount": {
-      "type": "integer"
+      "type": "integer",
+      "unique": false,
+      "required": false,
+      "min": 0
     },
     "darazVoucher": {
       "type": "integer"

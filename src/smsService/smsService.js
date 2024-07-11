@@ -2,7 +2,7 @@
 const axios = require('axios');
 const { createNewSMSLog } = require('../dbService/smsDbLog');
 const { SMSStatus,messageResponse } = require('../config/enum');
-require('dotenv').config(); // Load environment variables
+require('dotenv').config();
 
 const sendMessage = async (mobile, otp, messageTemplate,msgCategory) => {
     const message = messageTemplate.replace(/{mobile}/g, mobile).replace(/{otp}/g, otp);

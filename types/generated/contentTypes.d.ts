@@ -903,7 +903,13 @@ export interface ApiPrizeConfigurationPrizeConfiguration
     draftAndPublish: false;
   };
   attributes: {
-    reloadAmount: Attribute.Integer;
+    reloadAmount: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
     darazVoucher: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -937,7 +943,9 @@ export interface ApiSmsLogSmsLog extends Schema.CollectionType {
     mobile: Attribute.String;
     msgState: Attribute.Enumeration<['Delivered', 'Failed']>;
     message: Attribute.String;
-    msgCategory: Attribute.Enumeration<['otp', 'daraz-winning']>;
+    msgCategory: Attribute.Enumeration<
+      ['otp', 'daraz-winning', 'reload-100-winning', 'reload-50-winning']
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

@@ -13,8 +13,10 @@ const {
 } = require('../services/darazService');
 const {
     handleReloadAmountUpdate,
-    handleReloadUserProfileUpdate
+    handleReloadUserProfileUpdate,
+    handleReloadSent
 } = require('../services/reloadService');
+const messageTemplates = require('../../../config/template');
 
 module.exports = createCoreController('api::winner.winner', ({ strapi }) => ({
     async playerwinner(ctx) {
@@ -41,6 +43,7 @@ module.exports = createCoreController('api::winner.winner', ({ strapi }) => ({
                     return ctx.send({ message: 'User has reached the win limit.' }, 400);
                 }
 
+                await handleReloadSent(player.mobile,winningPrize,messageTemplates.reloadWinning)
                 await handleReloadAmountUpdate(winningPrize);
                 await handleReloadUserProfileUpdate(userId, player.mobile, player.weeklyWin, player.reloadWin, winningPrize);
                 console.log('Prize awarded and user profile updated.');
@@ -53,7 +56,7 @@ module.exports = createCoreController('api::winner.winner', ({ strapi }) => ({
                     return ctx.send({ message: 'OTP does not match.' }, 400);
                 }
 
-                if (player.reloadWin >= 1 || player.darazWin >= 1) {
+                if (player.darazWin >= 1) {
                     console.log('User has reached the win limit.');
                     return ctx.send({ message: 'User has reached the win limit.' }, 400);
                 }

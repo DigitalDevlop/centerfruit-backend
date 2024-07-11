@@ -10,11 +10,19 @@ const messageResponse = Object.freeze({
 
 const msgCategory = Object.freeze({
     OTP:'otp',
-    DARAZWINNING:'daraz-winning'
+    DARAZWINNING:'daraz-winning',
+    RELOAD100:'reload-100-winning',
+    RELOAD50:'reload-50-winning',
+});
+
+const reloadChanel = Object.freeze({
+    RELOAD100:'245',
+    RELOAD50:'242'
 });
 
 module.exports = {
     SMSStatus,
     messageResponse,
-    msgCategory
+    msgCategory,
+    reloadChanel
 };

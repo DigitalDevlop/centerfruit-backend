@@ -29,7 +29,9 @@
       "type": "enumeration",
       "enum": [
         "otp",
-        "daraz-winning"
+        "daraz-winning",
+        "reload-100-winning",
+        "reload-50-winning"
       ]
     }
   }
