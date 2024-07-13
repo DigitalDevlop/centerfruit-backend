@@ -73,7 +73,9 @@ const handleReloadSent = async (mobile, winningPrize, messageTemplate) => {
         loggerReload.info(`Sending reward request for mobile ${mobile}, prize ${winningPrize}`);
         
         // Step 2: Reward Request
-        const rewardResponse = await axios.post(process.env.REWARD_URL, {
+        
+        // Reward request parameters
+        const rewardRequestParams = {
             msisdn: mobile,
             channel: channel,
             mt_port: process.env.CONFIGURED_NUMBER_MASK,
@@ -81,7 +83,13 @@ const handleReloadSent = async (mobile, winningPrize, messageTemplate) => {
             e_time: '2024-07-31 16:00:00',
             msg: message,
             callback_url: ''
-        }, {
+        };
+
+        console.log("Reward request parameters:", rewardRequestParams);
+        loggerReload.info(`Reward request parameters for mobile ${mobile}: ${JSON.stringify(rewardRequestParams)}`);
+
+        // Step 2: Reward Request
+        const rewardResponse = await axios.post(process.env.REWARD_URL, rewardRequestParams, {
             headers: {
                 'Authorization': `${accessToken}`,
                 'Content-Type': 'application/json',
@@ -96,7 +104,7 @@ const handleReloadSent = async (mobile, winningPrize, messageTemplate) => {
         console.log('Reward request sent successfully:', rewardResponse.data);
         loggerReload.info(`Reward request sent successfully for mobile ${mobile}: ${JSON.stringify(rewardResponse.data)}`);
 
-        const messageState = rewardResponse.data === messageResponse.messageResponse ? SMSStatus.DELIVERED : SMSStatus.FAILED;
+        const messageState = rewardResponse.data === messageResponse.reloadResponse ? SMSStatus.DELIVERED : SMSStatus.FAILED;
         const smsLog = await createNewSMSLog(mobile, message, messageState, msgCategorys);
         console.log(`Message ${messageState.toLowerCase()}:`, smsLog);
         loggerReload.info(`Message ${messageState.toLowerCase()} for mobile ${mobile}: ${JSON.stringify(smsLog)}`);

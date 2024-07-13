@@ -19,6 +19,19 @@ const loggerReload = createLogger({
     ]
 });
 
+// Logger for Daraz winning messages
+const loggerDaraz = createLogger({
+    format: combine(
+        label({ label: 'daraz-winning-service' }),
+        timestamp(),
+        logFormat
+    ),
+    transports: [
+        new transports.Console(),
+        new transports.File({ filename: 'logs/daraz-winning.log' })
+    ]
+});
+
 // Logger for SMS service
 const loggerSMS = createLogger({
     format: combine(
@@ -34,5 +47,6 @@ const loggerSMS = createLogger({
 
 module.exports = {
     loggerReload,
-    loggerSMS
+    loggerSMS,
+    loggerDaraz
 };

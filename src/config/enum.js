@@ -5,7 +5,8 @@ const SMSStatus = Object.freeze({
 });
 
 const messageResponse = Object.freeze({
-    messageResponse:'Operation success: CENTER'
+    messageResponse:'Operation success: CENTER',
+    reloadResponse:'0',
 });
 
 const msgCategory = Object.freeze({
