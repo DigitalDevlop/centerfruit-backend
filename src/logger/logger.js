@@ -45,8 +45,21 @@ const loggerSMS = createLogger({
     ]
 });
 
+const LoggerReloadSMS = createLogger({
+    format: combine(
+        label({ label: 'sms-service-reload' }),
+        timestamp(),
+        logFormat
+    ),
+    transports: [
+        new transports.Console(),
+        new transports.File({ filename: 'logs/reload-sms.log' })
+    ]
+});
+
 module.exports = {
     loggerReload,
     loggerSMS,
-    loggerDaraz
+    loggerDaraz,
+    LoggerReloadSMS
 };
