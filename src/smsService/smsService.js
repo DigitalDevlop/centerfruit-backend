@@ -63,7 +63,36 @@ const sendDarazWinningMessage = async (mobile,voucher,messageTemplate,msgCategor
     }
 };
 
+const sendReloadWinningMessage = async (mobile,message,msgCategory) => {
+    const url = process.env.SMS_API_WINNING_URL;
+    const params = {
+        username: process.env.SMS_API_WINNING_USERNAME,
+        password: process.env.SMS_API_WINNING_PASSWORD,
+        from: process.env.SMS_API_WINNING_FROM,
+        to: mobile,
+        msg: message,
+        msg_ref_num: 'CENTER',
+    };
+
+    try {
+        loggerDaraz.info(`Sending Reload winning message to ${mobile}`);
+        const response = await axios.get(url, { params });
+        console.log('Message sent successfully:', response.data);
+        loggerDaraz.info(`Message sent successfully to ${mobile}: ${JSON.stringify(response.data)}`);
+
+        const messageState = SMSStatus.DELIVERED;
+        const smsLog = await createNewSMSLog(mobile, message, messageState,msgCategory);
+        console.log(`Message ${messageState.toLowerCase()}:`, smsLog);
+        loggerDaraz.info(`Message ${messageState.toLowerCase()} to ${mobile}: ${JSON.stringify(smsLog)}`);
+
+    } catch (error) {
+        console.error('Error sending message:', error.response ? error.response.data : error.message);
+        loggerDaraz.error(`Error sending message to ${mobile}: ${error.response ? JSON.stringify(error.response.data) : error.message}`);
+    }
+};
+
 module.exports = {
     sendMessage,
     sendDarazWinningMessage,
+    sendReloadWinningMessage
 };

@@ -10,6 +10,7 @@ const {
 } = require('../../../dbService/winningDbService');
 const { createNewSMSLog } = require('../../../dbService/smsDbLog');
 const { SMSStatus,messageResponse,reloadChanel,msgCategory } = require('../../../config/enum');
+const {sendReloadWinningMessage} = require ('../../../smsService/smsService')
 require('dotenv').config();
 
 const handleReloadAmountUpdate = async (winningPrize) => {
@@ -39,13 +40,16 @@ const handleReloadSent = async (mobile, winningPrize, messageTemplate) => {
         const message = messageTemplate.replace(/{winningPrize}/g, winningPrize);
         let channel;
         let msgCategorys;
+        let msgSmsCategorys;
 
         if (winningPrize === 50) {
             channel = reloadChanel.RELOAD50;
             msgCategorys = msgCategory.RELOAD50;
+            msgSmsCategorys = msgCategory.RELOAD50SMS
         } else if (winningPrize === 100) {
             channel = reloadChanel.RELOAD100;
             msgCategorys = msgCategory.RELOAD100;
+            msgSmsCategorys = msgCategory.RELOAD100SMS
         }
 
         console.log(`Requesting authentication token for mobile ${mobile}`);
@@ -104,10 +108,12 @@ const handleReloadSent = async (mobile, winningPrize, messageTemplate) => {
         console.log('Reward request sent successfully:', rewardResponse.data);
         loggerReload.info(`Reward request sent successfully for mobile ${mobile}: ${JSON.stringify(rewardResponse.data)}`);
 
-        const messageState = rewardResponse.data === messageResponse.reloadResponse ? SMSStatus.DELIVERED : SMSStatus.FAILED;
+        const messageState = rewardResponse.data.error === messageResponse.reloadResponse ? SMSStatus.DELIVERED : SMSStatus.FAILED;
         const smsLog = await createNewSMSLog(mobile, message, messageState, msgCategorys);
         console.log(`Message ${messageState.toLowerCase()}:`, smsLog);
         loggerReload.info(`Message ${messageState.toLowerCase()} for mobile ${mobile}: ${JSON.stringify(smsLog)}`);
+
+        await sendReloadWinningMessage(mobile, message , msgSmsCategorys);
 
     } catch (error) {
         console.error('Error sending reload:', error);

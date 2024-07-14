@@ -944,7 +944,14 @@ export interface ApiSmsLogSmsLog extends Schema.CollectionType {
     msgState: Attribute.Enumeration<['Delivered', 'Failed']>;
     message: Attribute.String;
     msgCategory: Attribute.Enumeration<
-      ['otp', 'daraz-winning', 'reload-100-winning', 'reload-50-winning']
+      [
+        'otp',
+        'daraz-winning',
+        'reload-100-winning',
+        'reload-50-winning',
+        'reload-100-winning-SMS',
+        'reload-50-winning-SMS'
+      ]
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;

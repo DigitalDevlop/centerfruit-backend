@@ -14,6 +14,8 @@ const msgCategory = Object.freeze({
     DARAZWINNING:'daraz-winning',
     RELOAD100:'reload-100-winning',
     RELOAD50:'reload-50-winning',
+    RELOAD100SMS:'reload-100-winning-SMS',
+    RELOAD50SMS:'reload-50-winning-SMS',
 });
 
 const reloadChanel = Object.freeze({
