@@ -21,8 +21,8 @@ const msgCategory = Object.freeze({
 const reloadChanel = Object.freeze({
     DIALOGRELOAD100:'245',
     DIALOGRELOAD50:'242',
-    OPRATERRELOAD50:'001',
-    OPRATERRELOAD100:'002',
+    OPRATERRELOAD50:'242',
+    OPRATERRELOAD100:'245',
 
 });
 
