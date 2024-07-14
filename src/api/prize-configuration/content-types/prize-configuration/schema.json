@@ -19,7 +19,8 @@
       "min": 0
     },
     "darazVoucher": {
-      "type": "integer"
+      "type": "integer",
+      "min": 0
     }
   }
 }

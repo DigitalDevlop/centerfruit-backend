@@ -910,7 +910,13 @@ export interface ApiPrizeConfigurationPrizeConfiguration
         },
         number
       >;
-    darazVoucher: Attribute.Integer;
+    darazVoucher: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
