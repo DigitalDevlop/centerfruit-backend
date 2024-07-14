@@ -19,8 +19,11 @@ const msgCategory = Object.freeze({
 });
 
 const reloadChanel = Object.freeze({
-    RELOAD100:'245',
-    RELOAD50:'242'
+    DIALOGRELOAD100:'245',
+    DIALOGRELOAD50:'242',
+    OPRATERRELOAD50:'001',
+    OPRATERRELOAD100:'002',
+
 });
 
 module.exports = {

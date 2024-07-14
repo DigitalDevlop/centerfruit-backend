@@ -1,6 +1,6 @@
 'use strict';
 const axios = require('axios');
-const {loggerReload} = require('../../../logger/logger'); 
+const { loggerReload } = require('../../../logger/logger');
 
 const {
     getReloadAmount,
@@ -9,8 +9,8 @@ const {
     updateWinnerTable
 } = require('../../../dbService/winningDbService');
 const { createNewSMSLog } = require('../../../dbService/smsDbLog');
-const { SMSStatus,messageResponse,reloadChanel,msgCategory } = require('../../../config/enum');
-const {sendReloadWinningMessage} = require ('../../../smsService/smsService')
+const { SMSStatus, messageResponse, reloadChanel, msgCategory } = require('../../../config/enum');
+const { sendReloadWinningMessage } = require('../../../smsService/smsService')
 require('dotenv').config();
 
 const handleReloadAmountUpdate = async (winningPrize) => {
@@ -42,19 +42,36 @@ const handleReloadSent = async (mobile, winningPrize, messageTemplate) => {
         let msgCategorys;
         let msgSmsCategorys;
 
+        // Function to get the prefix of the mobile number
+        function getMobilePrefix(mobile) {
+            return mobile.substring(0, 4);
+        }
+
+
+
         if (winningPrize === 50) {
-            channel = reloadChanel.RELOAD50;
+
+            if (["9476", "9477", "9474"].includes(getMobilePrefix(mobile))) {
+                channel = reloadChanel.DIALOGRELOAD50;
+            } else {
+                channel = reloadChanel.OPRATERRELOAD50;
+            }
             msgCategorys = msgCategory.RELOAD50;
             msgSmsCategorys = msgCategory.RELOAD50SMS
+
         } else if (winningPrize === 100) {
-            channel = reloadChanel.RELOAD100;
+            if (["9476", "9477", "9474"].includes(getMobilePrefix(mobile))) {
+                channel = reloadChanel.DIALOGRELOAD100;
+            } else {
+                channel = reloadChanel.OPRATERRELOAD100;
+            }
             msgCategorys = msgCategory.RELOAD100;
             msgSmsCategorys = msgCategory.RELOAD100SMS
         }
 
         console.log(`Requesting authentication token for mobile ${mobile}`);
         loggerReload.info(`Requesting authentication token for mobile ${mobile}`);
-        
+
         // Step 1: Authentication Token Request
         const authResponse = await axios.post(process.env.AUTH_URL, {
             u_name: process.env.RELOAD_USERNAME,
@@ -75,9 +92,9 @@ const handleReloadSent = async (mobile, winningPrize, messageTemplate) => {
 
         console.log(`Sending reward request for mobile ${mobile}, prize ${winningPrize}`);
         loggerReload.info(`Sending reward request for mobile ${mobile}, prize ${winningPrize}`);
-        
+
         // Step 2: Reward Request
-        
+
         // Reward request parameters
         const rewardRequestParams = {
             msisdn: mobile,
@@ -113,7 +130,7 @@ const handleReloadSent = async (mobile, winningPrize, messageTemplate) => {
         console.log(`Message ${messageState.toLowerCase()}:`, smsLog);
         loggerReload.info(`Message ${messageState.toLowerCase()} for mobile ${mobile}: ${JSON.stringify(smsLog)}`);
 
-        await sendReloadWinningMessage(mobile, message , msgSmsCategorys);
+        await sendReloadWinningMessage(mobile, message, msgSmsCategorys);
 
     } catch (error) {
         console.error('Error sending reload:', error);

@@ -78,7 +78,7 @@ const sendReloadWinningMessage = async (mobile,message,msgCategory) => {
         LoggerReloadSMS.info(`Sending Reload winning message to ${mobile}`);
         const response = await axios.get(url, { params });
         console.log('Message sent successfully:', response.data);
-        loggerDaraz.info(`Message sent successfully to ${mobile}: ${JSON.stringify(response.data)}`);
+        LoggerReloadSMS.info(`Message sent successfully to ${mobile}: ${JSON.stringify(response.data)}`);
 
         const messageState = SMSStatus.DELIVERED;
         const smsLog = await createNewSMSLog(mobile, message, messageState,msgCategory);
