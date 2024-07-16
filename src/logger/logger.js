@@ -68,11 +68,23 @@ const LoggerPlayerAttempt = createLogger({
         new transports.File({ filename: 'logs/player-attempt.log' })
     ]
 });
+const WeeklyWinning = createLogger({
+    format: combine(
+        label({ label: 'weekly-winning' }),
+        timestamp(),
+        logFormat
+    ),
+    transports: [
+        new transports.Console(),
+        new transports.File({ filename: 'logs/weekly-winning.log' })
+    ]
+});
 
 module.exports = {
     loggerReload,
     loggerSMS,
     loggerDaraz,
     LoggerReloadSMS,
-    LoggerPlayerAttempt
+    LoggerPlayerAttempt,
+    WeeklyWinning
 };

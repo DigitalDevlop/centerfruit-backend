@@ -13,13 +13,13 @@ module.exports = createCoreController('api::player.player', ({ strapi }) => ({
 
             LoggerPlayerAttempt.info('Starting daily attempt renewal process');
            
-            // Fetch all players with reloadWin not equal to 0 or null
+
             const playersToUpdate = await getPlayersWithReloadWinNotZeroOrNull();
 
             LoggerPlayerAttempt.info(`Fetched ${playersToUpdate.length} players to update`);
 
 
-            // Update loginAttempt to 0 for all fetched players
+
             await updateLoginAttempts(playersToUpdate);
             LoggerPlayerAttempt.info('Updated login attempts for all fetched players');
 
