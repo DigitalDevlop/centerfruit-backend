@@ -3,8 +3,10 @@ const axios = require('axios');
 const { loggerReload } = require('../../../logger/logger');
 
 const {
-    getReloadAmount,
-    updateRelodAmount,
+    get50ReloadChances,
+    update50RelodAmount,
+    update100RelodAmount,
+    get100ReloadChances,
     updateReloadUserProfile,
     updateWinnerTable
 } = require('../../../dbService/winningDbService');
@@ -15,8 +17,15 @@ require('dotenv').config();
 
 const handleReloadAmountUpdate = async (winningPrize) => {
     try {
-        const reloadAmount = await getReloadAmount();
-        return await updateRelodAmount(reloadAmount.reloadAmount, winningPrize);
+        if(winningPrize === 50){
+            const ReloadChances = await get50ReloadChances();
+            return await update50RelodAmount(ReloadChances.reloadFifty);
+        }else if (winningPrize === 100){
+            const ReloadChances = await get100ReloadChances();
+            return await update100RelodAmount(ReloadChances.reloadHundred);
+        }
+
+       
     } catch (error) {
         console.error('Error updating reload amount:', error);
         throw error;

@@ -904,14 +904,21 @@ export interface ApiPrizeConfigurationPrizeConfiguration
     draftAndPublish: false;
   };
   attributes: {
-    reloadAmount: Attribute.Integer &
+    darazVoucher: Attribute.Integer &
       Attribute.SetMinMax<
         {
           min: 0;
         },
         number
       >;
-    darazVoucher: Attribute.Integer &
+    reloadFifty: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    reloadHundred: Attribute.Integer &
       Attribute.SetMinMax<
         {
           min: 0;

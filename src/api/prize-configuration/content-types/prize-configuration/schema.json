@@ -12,13 +12,15 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "reloadAmount": {
+    "darazVoucher": {
       "type": "integer",
-      "unique": false,
-      "required": false,
       "min": 0
     },
-    "darazVoucher": {
+    "reloadFifty": {
+      "type": "integer",
+      "min": 0
+    },
+    "reloadHundred": {
       "type": "integer",
       "min": 0
     }

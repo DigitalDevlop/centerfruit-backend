@@ -8,16 +8,30 @@ const userAcceptble = async (playerId) => {
     });
 };
 
-const getReloadAmount = async () => {
+const get50ReloadChances = async () => {
     return await strapi.entityService.findOne('api::prize-configuration.prize-configuration', 1, {
-        fields: ['reloadAmount'],
+        fields: ['reloadFifty'],
     });
 };
 
-const updateRelodAmount = async (reloadAmount,winningPrize) => {
+const update50RelodAmount = async (ReloadChances) => {
     return await strapi.entityService.update('api::prize-configuration.prize-configuration', 1, {
         data: {
-            reloadAmount: reloadAmount-winningPrize,
+            reloadFifty: ReloadChances-1,
+          },
+    });
+};
+
+const get100ReloadChances = async () => {
+    return await strapi.entityService.findOne('api::prize-configuration.prize-configuration', 1, {
+        fields: ['reloadHundred'],
+    });
+};
+
+const update100RelodAmount = async (ReloadChances) => {
+    return await strapi.entityService.update('api::prize-configuration.prize-configuration', 1, {
+        data: {
+            reloadHundred: ReloadChances-1,
           },
     });
 };
@@ -80,8 +94,10 @@ const updateDarazStatus = async (voucher) => {
 
 module.exports = {
     userAcceptble,
-    getReloadAmount,
-    updateRelodAmount,
+    get50ReloadChances,
+    update50RelodAmount,
+    get100ReloadChances,
+    update100RelodAmount,
     updateReloadUserProfile,
     updateWinnerTable,
     getDarazAmout,
