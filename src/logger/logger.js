@@ -57,9 +57,22 @@ const LoggerReloadSMS = createLogger({
     ]
 });
 
+const LoggerPlayerAttempt = createLogger({
+    format: combine(
+        label({ label: 'player-attempt' }),
+        timestamp(),
+        logFormat
+    ),
+    transports: [
+        new transports.Console(),
+        new transports.File({ filename: 'logs/player-attempt.log' })
+    ]
+});
+
 module.exports = {
     loggerReload,
     loggerSMS,
     loggerDaraz,
-    LoggerReloadSMS
+    LoggerReloadSMS,
+    LoggerPlayerAttempt
 };
