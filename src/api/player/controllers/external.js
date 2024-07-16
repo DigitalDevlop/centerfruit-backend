@@ -1,8 +1,8 @@
 'use strict';
 
 const { createCoreController } = require('@strapi/strapi').factories;
-const { sendMessage,sendAttemptMessage } = require('../../../smsService/smsService');
-const { findPlayerByMobile, updatePlayerOTP, createNewPlayer,findPlayerByAttempt } = require('../../../dbService/playerDbService');
+const { sendMessage, sendAttemptMessage } = require('../../../smsService/smsService');
+const { findPlayerByMobile, updatePlayerOTP, createNewPlayer, findPlayerByAttempt } = require('../../../dbService/playerDbService');
 const messageTemplates = require('../../../config/template');
 const { msgCategory } = require('../../../config/enum');
 
@@ -16,47 +16,50 @@ module.exports = createCoreController('api::player.player', ({ strapi }) => ({
             const { mobile } = ctx.request.body;
             console.log(`Mobilenumber: ${mobile}`);
 
-            const AttemptCheck = await findPlayerByAttempt(mobile);
-            const PlayerAttempt = AttemptCheck[0].loginAttempt;
 
-            if (PlayerAttempt < 10){
 
-                           // @ts-ignore
-                console.log("Testing",ctx.request.body)
+
+
+            // @ts-ignore
+            console.log("Testing", ctx.request.body)
 
             const existingPlayer = await findPlayerByMobile(mobile);
 
             if (existingPlayer.length > 0) {
-                const player = existingPlayer[0].id;
-                const mobile = parseInt(existingPlayer[0].mobile, 10);
-                const otp = generateOTP();
+                const AttemptCheck = await findPlayerByAttempt(mobile);
+                const PlayerAttempt = AttemptCheck[0].loginAttempt;
 
-                const updatedPlayer = await updatePlayerOTP(player, otp);
-                await sendMessage(mobile, otp, messageTemplates.existingPlayer,msgCategory.OTP);
+                if (PlayerAttempt < 10) {
+                    const player = existingPlayer[0].id;
+                    const mobile = parseInt(existingPlayer[0].mobile, 10);
+                    const otp = generateOTP();
 
-                ctx.send({ message: 'Updated player', player: updatedPlayer }, 200);
+                    const updatedPlayer = await updatePlayerOTP(player, otp);
+                    await sendMessage(mobile, otp, messageTemplates.existingPlayer, msgCategory.OTP);
+
+                    ctx.send({ message: 'Updated player', player: updatedPlayer }, 200);
+                } else {
+
+                    await sendAttemptMessage(mobile, messageTemplates.attemptMSG, msgCategory.Attempt);
+                    ctx.send({ message: 'Attempt Exceeded' }, 200);
+
+
+                }
+
             } else {
                 // @ts-ignore
                 const otp = generateOTP();
 
                 const newPlayer = await createNewPlayer(mobile, otp);
-                await sendMessage(mobile, otp, messageTemplates.newPlayer,msgCategory.OTP);
+                await sendMessage(mobile, otp, messageTemplates.newPlayer, msgCategory.OTP);
 
                 ctx.send({ message: 'New player added', player: newPlayer }, 201);
-            } 
-
             }
-            else {
-               
-                await sendAttemptMessage(mobile,messageTemplates.attemptMSG,msgCategory.Attempt);
-                ctx.send({ message: 'Attempt Exceeded' }, 200);
-
-                
-            }
-          
 
 
-            
+
+
+
         } catch (error) {
             console.error('Error occurred:', error);
             ctx.send({ message: 'Internal server error', error: error.message }, 500);
