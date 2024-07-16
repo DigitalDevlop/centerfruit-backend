@@ -35,6 +35,9 @@
     },
     "reloadWin": {
       "type": "integer"
+    },
+    "loginAttempt": {
+      "type": "integer"
     }
   }
 }

@@ -33,7 +33,8 @@
         "reload-100-winning",
         "reload-50-winning",
         "reload-100-winning-SMS",
-        "reload-50-winning-SMS"
+        "reload-50-winning-SMS",
+        "message-attempt"
       ]
     }
   }

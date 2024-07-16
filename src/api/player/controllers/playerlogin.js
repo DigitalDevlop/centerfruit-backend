@@ -24,9 +24,10 @@ module.exports = createCoreController('api::player.player', ({ strapi }) => ({
         
             if (playerCheck.length > 0) {
                 const player = playerCheck[0].id;
+                const playerAttempt = playerCheck[0].loginAttempt;
         
                 // Change active OTP status
-                const playerLogin = await changeActiveOtpStatus(player);
+                const playerLogin = await changeActiveOtpStatus(player,playerAttempt);
         
                 ctx.send({ status: 'Success', message: 'Player Log In', player: playerLogin }, 200);
             } else {

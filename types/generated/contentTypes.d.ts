@@ -873,6 +873,7 @@ export interface ApiPlayerPlayer extends Schema.CollectionType {
     weeklyWin: Attribute.Integer;
     darazWin: Attribute.Integer;
     reloadWin: Attribute.Integer;
+    loginAttempt: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -956,7 +957,8 @@ export interface ApiSmsLogSmsLog extends Schema.CollectionType {
         'reload-100-winning',
         'reload-50-winning',
         'reload-100-winning-SMS',
-        'reload-50-winning-SMS'
+        'reload-50-winning-SMS',
+        'message-attempt'
       ]
     >;
     createdAt: Attribute.DateTime;
