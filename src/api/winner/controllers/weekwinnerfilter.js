@@ -10,7 +10,7 @@ const {
 } = require('../../../dbService/filter');
 
 module.exports = createCoreController('api::winner.winner', ({ strapi }) => ({
-    async weekwinnerfilter(ctx) {
+    async playerwinner(ctx) {
         const winnersByDate = await getWeeklyWinning();
 
         // Format the result as needed
@@ -22,3 +22,4 @@ module.exports = createCoreController('api::winner.winner', ({ strapi }) => ({
         ctx.send(result);
     }
 }));
+
