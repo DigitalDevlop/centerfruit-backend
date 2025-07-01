@@ -1,6 +1,6 @@
 module.exports = {
-    newPlayer: `Thank you for your message. The Center Fresh Reload Wave Promotion has ended*T&C Apply.`,
-    existingPlayer: `Thank you for your message. The Center Fresh Reload Wave Promotion has ended*T&C Apply.`,
+    newPlayer: `Thank you for your message. The Center Fresh Reload Wave Promotion is yet to begin*T&C Apply`,
+    existingPlayer: `Thank you for your message. The Center Fresh Reload Wave Promotion is yet to begin*T&C Apply`,
     darazWinning: `Congratulations. You have won Rs.1,000/= Gift voucher from CENTER FRESH RELOAD WAVE. Purchase from Daraz.lk and claim your Voucher. {voucher}`,
     reloadWinning: `Congratulations. You have won Rs.{winningPrize} from CENTER FRESH RELOAD WAVE.Keep playing and keep winning.`,
     attemptMSG: `Thank you for participating in the CENTER FRESH RELOAD WAVE. Your OTP attempts have exceeded today's limit. Please try again tomorrow.`,
