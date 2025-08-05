@@ -109,8 +109,8 @@ const handleReloadSent = async (mobile, winningPrize, messageTemplate) => {
             msisdn: mobile,
             channel: channel,
             mt_port: process.env.CONFIGURED_NUMBER_MASK,
-            s_time: '2024-07-01 16:00:00',
-            e_time: '2024-09-16 23:50:00',
+            s_time: '2025-07-01 16:00:00',
+            e_time: '2025-10-01 23:50:00',
             msg: message,
             callback_url: ''
         };
