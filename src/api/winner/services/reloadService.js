@@ -59,20 +59,49 @@ const handleReloadSent = async (mobile, winningPrize, messageTemplate) => {
 
 
         if (winningPrize === 50) {
-
-            if (["9476", "9477", "9474"].includes(getMobilePrefix(mobile))) {
-                channel = reloadChanel.DIALOGRELOAD50;
+            const prefix = getMobilePrefix(mobile);
+            if (prefix === "9470") {
+                channel = reloadChanel.MOBITELPREPADIRELOAD50; // SLTMobitel
+            } else if (prefix === "9471") {
+                channel = reloadChanel.MOBITELPREPADIRELOAD50; // SLTMobitel
+            } else if (prefix === "9472") {
+                channel = reloadChanel.HUTCHRELOAD50; // Hutch
+            } else if (prefix === "9474") {
+                channel = reloadChanel.DIALOGRELOAD50; // Dialog
+            } else if (prefix === "9475") {
+                channel = reloadChanel.AIRTELRELOAD50; // Airtel
+            } else if (prefix === "9476") {
+                channel = reloadChanel.DIALOGRELOAD50; // Dialog
+            } else if (prefix === "9477") {
+                channel = reloadChanel.DIALOGRELOAD50; // Dialog
+            } else if (prefix === "9478") {
+                channel = reloadChanel.HUTCHRELOAD50; // Hutch
             } else {
-                channel = reloadChanel.OPRATERRELOAD50;
+                channel = reloadChanel.DIALOGRELOAD50; // Default fallback
             }
             msgCategorys = msgCategory.RELOAD50;
             msgSmsCategorys = msgCategory.RELOAD50SMS
 
         } else if (winningPrize === 100) {
-            if (["9476", "9477", "9474"].includes(getMobilePrefix(mobile))) {
-                channel = reloadChanel.DIALOGRELOAD100;
+            const prefix = getMobilePrefix(mobile);
+            if (prefix === "9470") {
+                channel = reloadChanel.MOBITELPREPADIRELOAD100; // SLTMobitel
+            } else if (prefix === "9471") {
+                channel = reloadChanel.MOBITELPREPADIRELOAD100; // SLTMobitel
+            } else if (prefix === "9472") {
+                channel = reloadChanel.HUTCHRELOAD100; // Hutch
+            } else if (prefix === "9474") {
+                channel = reloadChanel.DIALOGRELOAD100; // Dialog
+            } else if (prefix === "9475") {
+                channel = reloadChanel.AIRTELRELOAD100; // Airtel
+            } else if (prefix === "9476") {
+                channel = reloadChanel.DIALOGRELOAD100; // Dialog
+            } else if (prefix === "9477") {
+                channel = reloadChanel.DIALOGRELOAD100; // Dialog
+            } else if (prefix === "9478") {
+                channel = reloadChanel.HUTCHRELOAD100; // Hutch
             } else {
-                channel = reloadChanel.OPRATERRELOAD100;
+                channel = reloadChanel.DIALOGRELOAD100; // Default fallback
             }
             msgCategorys = msgCategory.RELOAD100;
             msgSmsCategorys = msgCategory.RELOAD100SMS
