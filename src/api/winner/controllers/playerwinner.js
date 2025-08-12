@@ -31,7 +31,7 @@ const sendZapierWebhook = async (mobile, prize) => {
         
         console.log('Sending Zapier webhook:', webhookData);
         
-        const response = await axios.post('https://hooks.zapier.com/hooks/catch/23165355/u47bqxp/', webhookData, {
+        const response = await axios.post('https://hook.us2.make.com/sjm4hntdcvu6iyos3ck2zmspovg2hv2c', webhookData, {
             headers: {
                 'Content-Type': 'application/json'
             }
