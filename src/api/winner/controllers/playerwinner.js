@@ -23,10 +23,24 @@ const messageTemplates = require('../../../config/template');
 const sendZapierWebhook = async (mobile, prize) => {
     try {
         const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        
+        // Determine provider based on mobile prefix
+        let provider = 'Unknown';
+        const mobilePrefix = mobile.substring(0, 4);
+        
+        if (['9474', '9475', '9476', '9477'].includes(mobilePrefix)) {
+            provider = 'Dialog';
+        } else if (['9470', '9471'].includes(mobilePrefix)) {
+            provider = 'Mobitel';
+        } else if (['9472', '9478'].includes(mobilePrefix)) {
+            provider = 'Hutch';
+        }
+        
         const webhookData = {
             mobile: mobile,
             prize: `Rs.${prize}`,
-            date: currentDate
+            date: currentDate,
+            provider: provider
         };
         
         console.log('Sending Zapier webhook:', webhookData);
