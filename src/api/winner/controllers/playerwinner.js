@@ -19,31 +19,6 @@ const {
 } = require('../services/reloadService');
 const messageTemplates = require('../../../config/template');
 
-// Function to send Zapier webhook
-const sendZapierWebhook = async (mobile, prize) => {
-    try {
-        const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
-        const webhookData = {
-            mobile: mobile,
-            prize: `Rs.${prize}`,
-            date: currentDate
-        };
-        
-        console.log('Sending Zapier webhook:', webhookData);
-        
-        const response = await axios.post('https://hooks.zapier.com/hooks/catch/23165355/u47bqxp/', webhookData, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        
-        console.log('Zapier webhook sent successfully:', response.data);
-    } catch (error) {
-        console.error('Error sending Zapier webhook:', error.message);
-        // Don't throw error to avoid breaking the main flow
-    }
-};
-
 module.exports = createCoreController('api::winner.winner', ({ strapi }) => ({
     async playerwinner(ctx) {
         try {
@@ -68,9 +43,6 @@ module.exports = createCoreController('api::winner.winner', ({ strapi }) => ({
                     console.log('User has reached the win limit.');
                     return ctx.send({ message: 'User has reached the win limit.' }, 400);
                 }
-
-                                // Send Zapier webhook for reload winning
-                await sendZapierWebhook(player.mobile, winningPrize);
 
                 await handleReloadSent(player.mobile,winningPrize,messageTemplates.reloadWinning)
                 await handleReloadAmountUpdate(winningPrize);
